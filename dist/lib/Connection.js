@@ -29,14 +29,12 @@ var instance = null;
 
 var Connection = function () {
   function Connection(database, username, password) {
-    var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
-    var discover = arguments.length <= 4 || arguments[4] === undefined ? ["/model"] : arguments[4];
-    var matcher = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
-    var logger = arguments.length <= 6 || arguments[6] === undefined ? false : arguments[6];
+    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+    var discover = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : ["/model"];
+    var matcher = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+    var logger = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
 
     _classCallCheck(this, Connection);
-
-    if (instance) return instance;
 
     this.database = database;
     this.username = username;
@@ -69,8 +67,6 @@ var Connection = function () {
       var _this = this;
 
       // return the instance, although this shouldn't be being called externally
-      if (instance) return instance;
-
       this._log("info", "Connecting to: " + this.database + " as: " + this.username);
 
       // Instantiate a new sequelize instance
